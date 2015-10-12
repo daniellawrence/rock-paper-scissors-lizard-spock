@@ -1,0 +1,177 @@
+<!doctype html>
+<html>
+  <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>rock paper scissors lizard spock</title>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+      <link rel="stylesheet" href="/animate.min.css">
+      <style>
+       body {
+	   background-color: #ddd;
+       }
+       .win {
+	   color: green;
+       }
+       .draw {
+	   color: blue;
+       }
+       .lose {
+	   color: #A12333;
+       }
+       .ready {
+	   color: black;
+       }
+       #result {
+	   font-size: 5em;
+       }
+       .container, .buttons {
+	   padding: 50px;
+       }
+       #announce {
+	   font-size: 7em;
+       }
+       #my_selection, #their_selection {
+	   -vendor-animation-duration: 2s;
+       }
+       #text-center {
+	   float: none;
+	   display: inline-block;
+	   vertical-align: middle;
+       }
+       @media only screen and (max-width: 710px) {
+	   #result {
+	       font-size: 3em;
+	   }
+	   .container, .buttons {
+	       padding: 10px;
+	   }
+
+       }
+
+       @media only screen and (max-width: 480px) {
+	   #result {
+	       font-size: 2em;
+	   }
+	   .container, .buttons {
+	       padding: 10px;
+	   }
+       }
+
+      </style>
+  </head>
+  <body>
+      <div class="container">
+	  <div class="text-center">
+	      <div id="result">
+		  <i id="my_selection" class="fa fa-5x fa-hand-rock-o fa-rotate-90"></i>
+		  <i id="their_selection" class="fa fa-5x fa-hand-rock-o fa-rotate-270"></i>
+	      </div>
+
+	      
+	      <div class="buttons">
+		  <a id="rock" class="item" ><i class="fa fa-5x fa-hand-rock-o"></i></a>
+		  <a id="paper" class="item" ><i class="fa fa-5x fa-hand-paper-o"></i></a>
+		  <a id="scissors" class="item" ><i class="fa fa-5x fa-flip-horizontal fa-hand-scissors-o"></i></a>
+		  <a id="lizard" class="item" ><i class="fa fa-5x fa-flip-horizontal fa-hand-lizard-o"></i></a>
+		  <a id="spock" class="item" ><i class="fa fa-5x fa-hand-spock-o"></i></a>
+	      </div>
+
+	      <div id="announce"></div>
+
+	  </div>
+      </div>
+      
+      <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+      <script type="text/javascript">
+       var i = ['rock', 'paper', 'scissors', 'lizard', 'spock'];
+       var win_count = 0;
+       
+       $('.item').click(function(){
+	   $("#my_selection").attr("class",    "fa fa-5x fa-hand-rock-o fa-rotate-90 animated bounce");
+	   $("#their_selection").attr("class", "fa fa-5x fa-hand-rock-o animated bounce");
+	   $("#result").attr("class", "ready");
+
+	   
+	   $("#announce").text("");
+	   window.setTimeout(function() {
+	       $("#announce").text("rock");
+	   }, 300);
+	   window.setTimeout(function() {
+	       $("#announce").text("paper");
+	   }, 600);
+	   window.setTimeout(function() {
+	       $("#announce").text("scissors");
+	   }, 900);
+	   window.setTimeout(function() {
+	       $("#announce").text("lizard");
+	   }, 1200);
+	   window.setTimeout(function() {
+	       $("#announce").text("spock");
+	   }, 1500);
+	   window.setTimeout(function() {
+	       $("#announce").text("");
+	   }, 1900);
+
+
+	   var r = Math.floor(Math.random() * 5);
+	   var p = i[r];
+	   var id = $(this).attr("id");
+	   var fa_name = "fa-hand-" + id + "-o";
+	   var pi = "fa-hand-" + p + "-o";
+	   var win = eval_winner(id, p);
+
+
+	   window.setTimeout(function() {
+	       $("#my_selection").attr("class", "fa fa-flip-horizontal fa-5x " + fa_name);
+	       $("#their_selection").attr("class", "fa fa-5x " + pi);
+
+	       $("#result").attr("class", win);
+	       $("#result_text").text(win);
+
+	       window.setTimeout(function() {
+		   if (win == "win"){
+		       win_count++;
+		       $("#my_selection").addClass("animated swing");
+		   }
+		   if (win == "lose"){
+		       $("#their_selection").addClass("animated swing");
+		   }
+	       }, 200);
+
+	       if (win_count == 1){
+		   $("#win_count").text("You have won once.");
+	       }
+	       if (win_count > 1){
+		   $("#win_count").text("You have won " + win_count + " times.");
+	       }
+	   }, 1500);
+
+       });
+
+       function eval_winner(m, t) {
+	   if (m == t) {
+	       return "draw";
+	   }
+	   if (m == "rock" && $.inArray(t, ['scissors', 'lizard'])){
+	       return "win";
+	   }
+	   if (m == "paper" && $.inArray(t, ['rock', 'spock'])){
+	       return "win";
+	   }
+	   if (m == "scissors" && $.inArray(t, ['lizard', 'paper'])){
+	       return "win";
+	   }
+	   if (m == "lizard" && $.inArray(t, ['spock', 'paper'])){
+	       return "win";
+	   }
+	   if (m == "spock" && $.inArray(t, ['rock', 'scissors'])){
+	       return "win";
+	   }
+
+	   return "lose";
+       }
+       
+      </script>
+  </body>
+</html>
